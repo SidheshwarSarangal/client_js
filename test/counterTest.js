@@ -186,6 +186,21 @@ describe.each([
 					expect(() => child.inc(value)).toThrow();
 				},
 			);
+
+			it.each([undefined, null, 0, -0, 0.5, Number.MAX_VALUE, NaN, false, ''])(
+				'should apply the same value handling to direct and saved increments of %p',
+				async value => {
+					const child = instance.labels('GET', '/test');
+					const directLabels = { method: 'POST', endpoint: '/test' };
+					child.inc(value);
+					instance.inc(directLabels, value);
+					child.inc(value);
+					instance.inc(directLabels, value);
+					const values = (await instance.get()).values;
+					expect(values).toHaveLength(2);
+					expect(values[0].value).toEqual(values[1].value);
+				},
+			);
 		});
 	});
 
