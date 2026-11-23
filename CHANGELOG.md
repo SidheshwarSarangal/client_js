@@ -13,6 +13,8 @@ project adheres to [Semantic Versioning](http://semver.org/).
 - `reset()` changes that may require modifications to custom Metrics:
   - it is no longer called in the middle of the constructor
   - it now defaults to clearing the labelMap
+- Metric constructors only apply supported configuration options. Unknown options are
+  ignored instead of being copied onto the metric instance (Relates to [#814](https://github.com/prometheus/client_js/issues/814))
 
 ### Changed
 
